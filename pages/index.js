@@ -18,7 +18,7 @@ export default class extends React.Component {
                 <div className="channels">
                     {   
                         channels.map((channel, index) => (
-                            <Link href="/channel" prefetch>
+                            <Link href={`/channel?id=${ channel.id }`} prefetch>
                                 <a className="channel" key={ index }>
                                     <img src={ channel.urls.logo_image.original } alt="Podcast Channel Logo" />
                                     <h2>{ channel.title }</h2>
@@ -76,6 +76,7 @@ export default class extends React.Component {
                     {`
                         body {
                             margin: 0;
+                            padding: 0;
                             font-family: system-ui;
                             background-color: white;
                         }
