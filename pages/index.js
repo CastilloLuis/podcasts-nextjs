@@ -1,4 +1,5 @@
 import 'isomorphic-fetch';
+import Link from 'next/link';
 
 export default class extends React.Component {
 
@@ -17,10 +18,12 @@ export default class extends React.Component {
                 <div className="channels">
                     {   
                         channels.map((channel, index) => (
-                            <div className="channel" key={ index }>
-                                <img src={ channel.urls.logo_image.original } alt="Podcast Channel Logo" />
-                                <h2>{ channel.title }</h2>
-                            </div>
+                            <Link href="/channel" prefetch>
+                                <a className="channel" key={ index }>
+                                    <img src={ channel.urls.logo_image.original } alt="Podcast Channel Logo" />
+                                    <h2>{ channel.title }</h2>
+                                </a>
+                            </Link>
                         ))
                     }
                 </div>
@@ -37,19 +40,22 @@ export default class extends React.Component {
                         text-align: center;
                     }
                     
-                    channels {
-                        display: flex;
-                        justify-content: space-between;
-                        align-items: center;
-                        padding: 15px
+                    .channels {
+                        display: grid;
+                        grid-gap: 15px;
+                        padding: 15px;
+                        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
                     }
 
-                    a.channel {
+                    .channel {
                         display: block;
+                        border-radius: 3px;
+                        box-shadow: 0px 2px 6px rgba(0,0,0,0.15);
                         margin-bottom: 0.5em;
-                        color: #333;
                         text-decoration: none;
+                        color: #333333
                     }
+
                     .channel img {
                         border-radius: 3px;
                         box-shadow: 0px 2px 6px rgba(0,0,0,0.15);
