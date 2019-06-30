@@ -26,7 +26,6 @@ export default class extends React.Component {
 
     render() {
         const { channelData, audioClips, series } = this.props;
-        console.log(audioClips)
         console.log(series)
         return (
             <div>
