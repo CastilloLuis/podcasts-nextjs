@@ -1,27 +1,33 @@
 import Link from 'next/link';
 import Head from 'next/head';
 
-const Layout = ({ children, title }) => (
+const Layout = ({ children, title, header = true }) => (
     <div>
         <Head>
             <title>{ title }</title>
         </Head>
-        <header>
-            <Link>
-                <a>Podcast</a>
-            </Link>
-        </header>
+        {
+            header ? 
+            <header>
+                <Link>
+                    <a href="/">Podcast</a>
+                </Link>
+            </header> : false
+        }
 
         { children }
 
         <style jsx>
         {`
             header {
-                color: #fff;
-                font-weight: bold;
                 background: #8756ca;
                 padding: 15px;
                 text-align: center;
+            }
+
+            header a {
+                color: white;
+                font-weight: bold;
                 text-decoration: none;
             }
         `}
