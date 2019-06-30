@@ -1,5 +1,6 @@
 import 'isomorphic-fetch';
 import Link from 'next/link';
+import Error from './_error';
 
 import Layout from '../components/Layout';
 import GoToPrevPage from '../components/GoToPrevPage';
@@ -7,30 +8,45 @@ import ChannelContentList from '../components/ChannelContentList';
 
 export default class extends React.Component {
 
-    static getInitialProps = async ({ query: { id } }) => {
+    static getInitialProps = async ({ query: { id }, res }) => {
         const channelId = id;
 
-        const [responseChannel, responseAudios, responseSeries] = await Promise.all([
-            fetch(`https://api.audioboom.com/channels/${channelId}`),
-            fetch(`https://api.audioboom.com/channels/${channelId}/audio_clips`),
-            fetch(`https://api.audioboom.com/channels/${channelId}/child_channels`)
-        ]);
+        try {
+            const [responseChannel, responseAudios, responseSeries] = await Promise.all([
+                fetch(`https://api.audioboom.com/channels/${channelId}`),
+                fetch(`https://api.audioboom.com/channels/${channelId}/audio_clips`),
+                fetch(`https://api.audioboom.com/channels/${channelId}/child_channels`)
+            ]);
 
-        const { body: { channel } } = await responseChannel.json();
-        const channelData = channel;
+            if( responseChannel.status >= 400 ) {
+                res.statusCode = responseChannel.status;
+                return { channelData: null, audioClips: null, series: null, statusCode: responseChannel.status }
+            }
 
-        const { body: { audio_clips } } = await responseAudios.json();
-        const audioClips = audio_clips;
+            const { body: { channel } } = await responseChannel.json();
+            const channelData = channel;
 
-        const { body: { channels } } = await responseSeries.json();
-        const series = channels;
+            const { body: { audio_clips } } = await responseAudios.json();
+            const audioClips = audio_clips;
 
-        return { channelData, audioClips, series };
+            const { body: { channels } } = await responseSeries.json();
+            const series = channels;
+
+            return { channelData, audioClips, series, statusCode: 200 };
+        } catch (e) {
+            return { channelData: null, audioClips: null, series: null, statusCode: 503 }
+        }
+        
     }
 
     render() {
-        const { channelData, audioClips, series } = this.props;
+        const { channelData, audioClips, series, statusCode } = this.props;
         console.log(audioClips)
+
+        if( statusCode !== 200) {
+            return <Error statusCode={statusCode} />
+        }
+
         return (
             <Layout title={channelData.title} header={false}>
 

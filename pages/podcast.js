@@ -90,6 +90,16 @@ export default class extends React.Component {
                                 text-align: center;                            
                             }
 
+                            .description-wrapper {
+                                width: 300px;
+                                height: 300px;
+                                display: flex;
+                                text-align: center;
+                                justify-content: center;
+                                align-items: center;
+                                padding: 15px;
+                            }
+
                             .description-wrapper span{
                                 color: white;
                                 text-shadow: 2px 2px 3px rgba(0,0,0,0.75);
