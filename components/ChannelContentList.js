@@ -1,13 +1,14 @@
 import Link from 'next/link';
+import slug from '../helpers/utils';
 
-const ChannelContentList = ({ listTitle, items, defaultImage }) => {
+const ChannelContentList = ({ channelData, listTitle, items, defaultImage }) => {
     return (
         <div className="channelWrapper">
             <h3>{ listTitle }</h3>
             {
                 items.map((item, index) => (
                     <Link key={index}>
-                        <a href={`/podcast?id=${item.id}`} className="list" key={ index }>
+                        <a href={`${slug(channelData.title)}.${channelData.id}/${slug(item.title)}.${item.id}`} className="list" key={ index }>
                             <img className="list-image" src={item.urls.image ? item.urls.image : item.urls.logo_image.original ? item.urls.logo_image.original : defaultImage} alt="podcast image" />
                             <div className="list-content">
                                 <span className="list-item-title">{ item.title }</span>

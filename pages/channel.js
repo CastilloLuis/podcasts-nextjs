@@ -41,7 +41,7 @@ export default class extends React.Component {
 
     render() {
         const { channelData, audioClips, series, statusCode } = this.props;
-        console.log(audioClips)
+        // console.log(audioClips)
 
         if( statusCode !== 200) {
             return <Error statusCode={statusCode} />
@@ -49,7 +49,6 @@ export default class extends React.Component {
 
         return (
             <Layout title={channelData.title} header={false}>
-
                 <GoToPrevPage 
                     query='/'
                 />
@@ -59,6 +58,7 @@ export default class extends React.Component {
 
                 <ChannelContentList
                     listTitle="Podcasts"
+                    channelData={channelData}
                     items={audioClips}
                     defaultImage={channelData.urls.logo_image.original}
                 />
@@ -66,6 +66,7 @@ export default class extends React.Component {
                     series.length > 0 ? 
                     <ChannelContentList
                         listTitle="Series"
+                        channelData={channelData}
                         items={series}
                         defaultImage={channelData.urls.logo_image.original}
                     />  : false
