@@ -26,6 +26,7 @@ export default class extends React.Component {
 
     render() {
         const { channelData, audioClips, series } = this.props;
+        console.log(audioClips)
         console.log(series)
         return (
             <div>
@@ -42,22 +43,32 @@ export default class extends React.Component {
                     <h3>Podcasts</h3>
                     {
                         audioClips.map((clip, index) => (
-                            <div className="list" key={index}>
-                                <span className="list-item-title">{ clip.title }</span>
-                                <span className="list-item-description">{ clip.description.substr(0, 100) }...</span>
-                            </div>
+                            <Link>
+                                <a href={`/podcast?id=${clip.id}`} className="list" key={ index }>
+                                    <img className="list-image" src={clip.urls.image ? clip.urls.image : channelData.urls.logo_image.original} alt="podcast image" />
+                                    <div className="list-content">
+                                        <span className="list-item-title">{ clip.title }</span>
+                                        <span className="list-item-description">{ clip.description.substr(0, 80) }...</span>
+                                    </div>
+                                </a>
+                            </Link>
                         ))
                     }
 
                     { series.length > 0 ? 
                         <React.Fragment>
                             <h3>Series</h3>
-                            series.map((serie) => (
-                                <div className="list">
-                                    <span className="list-item-title">{ serie.title }</span>
-                                    <span className="list-item-description">{ serie.description.substr(0, 100) }</span>                                
-                                </div>
-                            ))
+                            {
+                                series.map((serie, index) => (
+                                    <div className="list" key={ index }>
+                                        <img className="list-image" src={serie.urls.logo_image.original ? serie.urls.logo_image.original : channelData.urls.logo_image.original} alt="podcast image" />
+                                        <div className="list-content">
+                                            <span className="list-item-title">{ serie.title }</span>
+                                            <span className="list-item-description">{ serie.description.substr(0, 80) }...</span>
+                                        </div>
+                                    </div>
+                                ))   
+                            }
                         </React.Fragment> : 
                         false
                     }
@@ -102,13 +113,28 @@ export default class extends React.Component {
                         text-align: left;
                         padding: 10px;
                         display: flex;
-                        flex-direction: column;
+                        align-items: center;
                         cursor: pointer;
+                        text-decoration: none;
+                    }
+
+                    .list-image {
+                        width: 45px;
+                        height: 45px;
+                        border-radius: 3px;
+                        border: 1px solid #ececec;
+                        margin-right: 15px;
+                    }
+
+                    .list-content {
+                        display: flex;
+                        flex-direction: column;
                     }
 
                     .list-item-title {
-                        font-size: 15px;
+                        font-size: 14px;
                         font-weight: 500;
+                        color: #191919
                     }
 
                     .list-item-description {
